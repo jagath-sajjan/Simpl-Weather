@@ -201,19 +201,21 @@ function getGeolocation() {
 async function getWeatherByCoords(lat, lon) {
     try {
         const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
-        if (!weatherResponse.ok) {
-            const errorData = await weatherResponse.json();
-            throw new Error(errorData.error || 'Failed to fetch weather data');
-        }
         const weatherData = await weatherResponse.json();
+        
+        if (weatherData.error) {
+            throw new Error(weatherData.error);
+        }
+        
         updateCurrentWeather(weatherData);
 
         const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
-        if (!forecastResponse.ok) {
-            const errorData = await forecastResponse.json();
-            throw new Error(errorData.error || 'Failed to fetch forecast data');
-        }
         const forecastData = await forecastResponse.json();
+        
+        if (forecastData.error) {
+            throw new Error(forecastData.error);
+        }
+        
         updateForecast(forecastData);
 
         updateBackground(weatherData.weather[0].main);
