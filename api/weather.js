@@ -3,15 +3,9 @@ const fetch = require('node-fetch');
 module.exports = async (req, res) => {
   try {
     const { lat, lon, city, units } = req.query;
-    const apiKey = process.env.OPENWEATHER_API_KEY;
+    const apiKey = 'fc9485f42bc343c260487345988240b1'; // Use the API key directly
 
-    console.log('API Key:', apiKey ? 'Set' : 'Not set');
     console.log('Query params:', { lat, lon, city, units });
-
-    if (!apiKey) {
-      console.error('API key is not set');
-      return res.status(500).json({ error: 'API key is not set' });
-    }
 
     let url;
     if (lat && lon) {
@@ -29,7 +23,6 @@ module.exports = async (req, res) => {
     const data = await response.text();
     
     console.log('OpenWeatherMap API response status:', response.status);
-    console.log('OpenWeatherMap API response headers:', JSON.stringify(response.headers.raw()));
     console.log('OpenWeatherMap API response body:', data);
 
     if (!response.ok) {
