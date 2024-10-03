@@ -1,5 +1,5 @@
 // Replace this line with your actual API key
-const apiKey = process.env.OPENWEATHER_API_KEY;
+// const apiKey = process.env.OPENWEATHER_API_KEY;
 
 const cityInput = document.getElementById('city-input');
 const searchBtn = document.getElementById('search-btn');
@@ -103,13 +103,13 @@ async function getWeather(query) {
 }
 
 async function fetchWeatherData(city) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`);
+    const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}&units=${units}`);
     if (!response.ok) throw new Error('City not found');
     return response.json();
 }
 
 async function fetchForecastData(city) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${units}`);
+    const response = await fetch(`/api/forecast?city=${encodeURIComponent(city)}&units=${units}`);
     if (!response.ok) throw new Error('Forecast data not available');
     return response.json();
 }
@@ -200,11 +200,11 @@ function getGeolocation() {
 
 async function getWeatherByCoords(lat, lon) {
     try {
-        const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+        const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
         const weatherData = await weatherResponse.json();
         updateCurrentWeather(weatherData);
 
-        const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+        const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
         const forecastData = await forecastResponse.json();
         updateForecast(forecastData);
 
@@ -343,13 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add these new functions to handle fetching by coordinates
 async function fetchWeatherDataByCoords(lat, lon) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+    const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
     if (!response.ok) throw new Error('Weather data not available');
     return response.json();
 }
 
 async function fetchForecastDataByCoords(lat, lon) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+    const response = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
     if (!response.ok) throw new Error('Forecast data not available');
     return response.json();
 }
