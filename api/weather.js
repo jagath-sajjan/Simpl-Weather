@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
   console.log('Query params:', { lat, lon, city, units });
 
   if (!apiKey) {
+    console.error('API key is not set');
     return res.status(500).json({ error: 'API key is not set' });
   }
 
@@ -17,6 +18,7 @@ module.exports = async (req, res) => {
   } else if (city) {
     url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   } else {
+    console.error('Missing parameters');
     return res.status(400).json({ error: 'Missing parameters' });
   }
 
@@ -27,8 +29,12 @@ module.exports = async (req, res) => {
     const data = await response.text();
     
     console.log('OpenWeatherMap API response status:', response.status);
-    console.log('OpenWeatherMap API response headers:', response.headers.raw());
+    console.log('OpenWeatherMap API response headers:', JSON.stringify(response.headers.raw()));
     console.log('OpenWeatherMap API response body:', data);
+
+    if (!response.ok) {
+      throw new Error(`OpenWeatherMap API responded with status ${response.status}`);
+    }
 
     try {
       const jsonData = JSON.parse(data);
@@ -42,57 +48,3 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-````
-
-2. Now, let's modify the `script.js` file to handle errors more gracefully:
-
-````javascript:script.js
-async function getWeatherByCoords(lat, lon) {
-    try {
-        const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
-        const weatherData = await weatherResponse.text();
-        console.log('Weather API response:', weatherData);
-
-        let parsedWeatherData;
-        try {
-            parsedWeatherData = JSON.parse(weatherData);
-        } catch (parseError) {
-            console.error('Error parsing weather data:', parseError);
-            throw new Error('Invalid response from weather API');
-        }
-
-        if (parsedWeatherData.error) {
-            throw new Error(parsedWeatherData.error);
-        }
-        
-        updateCurrentWeather(parsedWeatherData);
-
-        const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
-        const forecastData = await forecastResponse.text();
-        console.log('Forecast API response:', forecastData);
-
-        let parsedForecastData;
-        try {
-            parsedForecastData = JSON.parse(forecastData);
-        } catch (parseError) {
-            console.error('Error parsing forecast data:', parseError);
-            throw new Error('Invalid response from forecast API');
-        }
-
-        if (parsedForecastData.error) {
-            throw new Error(parsedForecastData.error);
-        }
-        
-        updateForecast(parsedForecastData);
-
-        updateBackground(parsedWeatherData.weather[0].main);
-
-        addToSearchHistory(parsedWeatherData.name);
-        cityInput.value = parsedWeatherData.name;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        alert(`An error occurred: ${error.message}. Please check the console for more details.`);
-    } finally {
-        hideLoading();
-    }
-}
