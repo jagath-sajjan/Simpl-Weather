@@ -2,11 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
   const { lat, lon, city, units } = req.query;
-  const apiKey = process.env.OPENWEATHER_API_KEY;
-
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key is not set' });
-  }
+  const apiKey = 'fc9485f42bc343c260487345988240b1'; // Use the API key directly
 
   let url;
   if (lat && lon) {
@@ -19,15 +15,17 @@ module.exports = async (req, res) => {
 
   try {
     const response = await fetch(url);
-    const data = await response.text(); // Use text() instead of json()
+    const data = await response.text();
     
-    try {
-      const jsonData = JSON.parse(data);
-      res.status(200).json(jsonData);
-    } catch (parseError) {
-      console.error('Error parsing OpenWeatherMap API response:', data);
-      res.status(500).json({ error: 'Invalid response from OpenWeatherMap API' });
+    console.log('OpenWeatherMap API response status:', response.status);
+    console.log('OpenWeatherMap API response body:', data);
+
+    if (!response.ok) {
+      throw new Error(`OpenWeatherMap API responded with status ${response.status}: ${data}`);
     }
+
+    const jsonData = JSON.parse(data);
+    res.status(200).json(jsonData);
   } catch (error) {
     console.error('Error fetching forecast data:', error);
     res.status(500).json({ error: error.message });
