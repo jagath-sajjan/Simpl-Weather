@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+// Replace this line with your actual API key
 const apiKey = process.env.OPENWEATHER_API_KEY;
+
 const cityInput = document.getElementById('city-input');
 const searchBtn = document.getElementById('search-btn');
 const geolocationBtn = document.getElementById('geolocation-btn');

@@ -51,8 +51,8 @@ This project is [MIT](https://choosealicense.com/licenses/mit/) licensed.
 
 **Jagath**
 
-- Github: [@yourgithubusername](https://github.com/jagath-sajjan)
-- LinkedIn: [@yourlinkedinusername](https://www.linkedin.com/in/jagath-sajjan/)
+- Github: [@jagath-sajjan](https://github.com/jagath-sajjan)
+- LinkedIn: [@jagath-sajjan](https://www.linkedin.com/in/jagath-sajjan/)
 
 ## 🙏 Acknowledgements
 
