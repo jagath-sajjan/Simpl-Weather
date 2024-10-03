@@ -201,28 +201,46 @@ function getGeolocation() {
 async function getWeatherByCoords(lat, lon) {
     try {
         const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
-        const weatherData = await weatherResponse.json();
-        
-        if (weatherData.error) {
-            throw new Error(weatherData.error);
+        const weatherData = await weatherResponse.text(); // Change this to text()
+        console.log('Weather API response:', weatherData); // Log the raw response
+
+        let parsedWeatherData;
+        try {
+            parsedWeatherData = JSON.parse(weatherData);
+        } catch (parseError) {
+            console.error('Error parsing weather data:', parseError);
+            throw new Error('Invalid response from weather API');
+        }
+
+        if (parsedWeatherData.error) {
+            throw new Error(parsedWeatherData.error);
         }
         
-        updateCurrentWeather(weatherData);
+        updateCurrentWeather(parsedWeatherData);
 
         const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
-        const forecastData = await forecastResponse.json();
-        
-        if (forecastData.error) {
-            throw new Error(forecastData.error);
+        const forecastData = await forecastResponse.text(); // Change this to text()
+        console.log('Forecast API response:', forecastData); // Log the raw response
+
+        let parsedForecastData;
+        try {
+            parsedForecastData = JSON.parse(forecastData);
+        } catch (parseError) {
+            console.error('Error parsing forecast data:', parseError);
+            throw new Error('Invalid response from forecast API');
+        }
+
+        if (parsedForecastData.error) {
+            throw new Error(parsedForecastData.error);
         }
         
-        updateForecast(forecastData);
+        updateForecast(parsedForecastData);
 
-        updateBackground(weatherData.weather[0].main);
+        updateBackground(parsedWeatherData.weather[0].main);
 
         // Add the location name to search history
-        addToSearchHistory(weatherData.name);
-        cityInput.value = weatherData.name;
+        addToSearchHistory(parsedWeatherData.name);
+        cityInput.value = parsedWeatherData.name;
     } catch (error) {
         console.error('Error fetching weather data:', error);
         alert(`An error occurred: ${error.message}`);
