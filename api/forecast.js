@@ -4,6 +4,10 @@ module.exports = async (req, res) => {
   const { lat, lon, city, units } = req.query;
   const apiKey = process.env.OPENWEATHER_API_KEY;
 
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key is not set' });
+  }
+
   let url;
   if (lat && lon) {
     url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
@@ -15,9 +19,14 @@ module.exports = async (req, res) => {
 
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`OpenWeatherMap API error: ${response.status} ${errorText}`);
+    }
     const data = await response.json();
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch forecast data' });
+    console.error('Error fetching forecast data:', error);
+    res.status(500).json({ error: error.message });
   }
 };
