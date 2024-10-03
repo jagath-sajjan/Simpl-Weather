@@ -201,8 +201,12 @@ function getGeolocation() {
 async function getWeatherByCoords(lat, lon) {
     try {
         const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
-        const weatherData = await weatherResponse.text(); // Change this to text()
-        console.log('Weather API response:', weatherData); // Log the raw response
+        const weatherData = await weatherResponse.text();
+        console.log('Weather API response:', weatherData);
+
+        if (!weatherResponse.ok) {
+            throw new Error(`Weather API responded with status ${weatherResponse.status}: ${weatherData}`);
+        }
 
         let parsedWeatherData;
         try {
@@ -243,7 +247,7 @@ async function getWeatherByCoords(lat, lon) {
         cityInput.value = parsedWeatherData.name;
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        alert(`An error occurred: ${error.message}`);
+        alert(`An error occurred: ${error.message}. Please check the console for more details.`);
     } finally {
         hideLoading();
     }
