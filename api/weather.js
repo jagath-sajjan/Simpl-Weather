@@ -26,7 +26,9 @@ module.exports = async (req, res) => {
     const response = await fetch(url);
     const data = await response.text();
     
-    console.log('OpenWeatherMap API response:', data);
+    console.log('OpenWeatherMap API response status:', response.status);
+    console.log('OpenWeatherMap API response headers:', response.headers.raw());
+    console.log('OpenWeatherMap API response body:', data);
 
     try {
       const jsonData = JSON.parse(data);
@@ -40,3 +42,57 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+````
+
+2. Now, let's modify the `script.js` file to handle errors more gracefully:
+
+````javascript:script.js
+async function getWeatherByCoords(lat, lon) {
+    try {
+        const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
+        const weatherData = await weatherResponse.text();
+        console.log('Weather API response:', weatherData);
+
+        let parsedWeatherData;
+        try {
+            parsedWeatherData = JSON.parse(weatherData);
+        } catch (parseError) {
+            console.error('Error parsing weather data:', parseError);
+            throw new Error('Invalid response from weather API');
+        }
+
+        if (parsedWeatherData.error) {
+            throw new Error(parsedWeatherData.error);
+        }
+        
+        updateCurrentWeather(parsedWeatherData);
+
+        const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
+        const forecastData = await forecastResponse.text();
+        console.log('Forecast API response:', forecastData);
+
+        let parsedForecastData;
+        try {
+            parsedForecastData = JSON.parse(forecastData);
+        } catch (parseError) {
+            console.error('Error parsing forecast data:', parseError);
+            throw new Error('Invalid response from forecast API');
+        }
+
+        if (parsedForecastData.error) {
+            throw new Error(parsedForecastData.error);
+        }
+        
+        updateForecast(parsedForecastData);
+
+        updateBackground(parsedWeatherData.weather[0].main);
+
+        addToSearchHistory(parsedWeatherData.name);
+        cityInput.value = parsedWeatherData.name;
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        alert(`An error occurred: ${error.message}. Please check the console for more details.`);
+    } finally {
+        hideLoading();
+    }
+}
