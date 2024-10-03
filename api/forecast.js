@@ -19,12 +19,15 @@ module.exports = async (req, res) => {
 
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`OpenWeatherMap API error: ${response.status} ${errorText}`);
+    const data = await response.text(); // Use text() instead of json()
+    
+    try {
+      const jsonData = JSON.parse(data);
+      res.status(200).json(jsonData);
+    } catch (parseError) {
+      console.error('Error parsing OpenWeatherMap API response:', data);
+      res.status(500).json({ error: 'Invalid response from OpenWeatherMap API' });
     }
-    const data = await response.json();
-    res.status(200).json(data);
   } catch (error) {
     console.error('Error fetching forecast data:', error);
     res.status(500).json({ error: error.message });
