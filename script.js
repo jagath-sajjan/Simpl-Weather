@@ -217,10 +217,6 @@ async function getWeatherByCoords(lat, lon) {
             throw new Error('Invalid response from weather API');
         }
 
-        if (parsedWeatherData.error) {
-            throw new Error(parsedWeatherData.error);
-        }
-        
         updateCurrentWeather(parsedWeatherData);
 
         const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
@@ -239,10 +235,6 @@ async function getWeatherByCoords(lat, lon) {
             throw new Error('Invalid response from forecast API');
         }
 
-        if (parsedForecastData.error) {
-            throw new Error(parsedForecastData.error);
-        }
-        
         updateForecast(parsedForecastData);
         updateBackground(parsedWeatherData.weather[0].main);
         addToSearchHistory(parsedWeatherData.name);
