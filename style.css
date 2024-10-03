@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #00bcd4;
+    --secondary-color: #0097a7;
+    --text-color: #ffffff;
+    --background-color: #121212;
+    --container-bg-color: rgba(18, 18, 18, 0.8);
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('https://source.unsplash.com/1600x900/?technology,dark');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    transition: background-image 1s ease-in-out;
+}
+
+.container {
+    background-color: var(--container-bg-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 188, 212, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.search {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.autocomplete {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 0.5rem;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--primary-color);
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: var(--container-bg-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 5px 5px;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--container-bg-color);
+    transition: background-color 0.3s ease;
+}
+
+.autocomplete-items div:hover,
+.autocomplete-active {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color);
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto Mono', monospace;
+}
+
+#search-btn, #geolocation-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+#search-btn {
+    margin-right: 0.5rem;
+}
+
+button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: all 0.3s ease;
+}
+
+.unit-toggle {
+    width: 100px;
+    height: 30px;
+    margin: 0 auto 1rem;
+}
+
+.unit-toggle button {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.weather-info {
+    margin-top: 1.5rem;
+}
+
+.current-weather {
+    margin-bottom: 1.5rem;
+}
+
+.city-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.temperature {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.description {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.weather-icon img {
+    width: 80px;
+    height: 80px;
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.detail i {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.forecast h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.forecast-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.forecast-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.forecast-item img {
+    width: 40px;
+    height: 40px;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--primary-color);
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: var(--container-bg-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--container-bg-color);
+    transition: background-color 0.3s ease;
+}
+
+.autocomplete-items div:hover,
+.autocomplete-active {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color);
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .forecast-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .autocomplete {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    #search-btn, #geolocation-btn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    #search-btn {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Add this at the end of your CSS file */
+.footer {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 5px 0;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.footer i {
+    margin-left: 5px;
+    color: var(--primary-color);
+}

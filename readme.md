@@ -1,6 +1,6 @@
-# Advanced Weather App 🌦️
+# Simpl Weather App 🌦️
 
-![Advanced Weather App](https://simpl-weather.vercel.app/)
+![Simpl Weather App](https://simpl-weather.vercel.app/)
 
 ## 🌟 Features
 
@@ -27,7 +27,7 @@
 2. Get an API key from [OpenWeatherMap](https://openweathermap.org/api)
 3. Create a `.env` file in the root directory and add your API key:
    ```
-   OPENWEATHER_API_KEY=your_api_key_here
+   OPENWEATHER_API_KEY= your_api_key_here
    ```
 4. Open `index.html` in your browser or set up a local server
 
@@ -41,7 +41,7 @@ You can customize the app by modifying the following:
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/advanced-weather-app/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/jagath-sajjan/Simpl-Weather/issues).
 
 ## 📝 License
 
@@ -51,8 +51,8 @@ This project is [MIT](https://choosealicense.com/licenses/mit/) licensed.
 
 **Jagath**
 
-- Github: [@yourgithubusername](https://github.com/yourgithubusername)
-- LinkedIn: [@yourlinkedinusername](https://linkedin.com/in/yourlinkedinusername)
+- Github: [@yourgithubusername](https://github.com/jagath-sajjan)
+- LinkedIn: [@yourlinkedinusername](https://www.linkedin.com/in/jagath-sajjan/)
 
 ## 🙏 Acknowledgements
 
