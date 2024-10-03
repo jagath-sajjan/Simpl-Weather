@@ -200,6 +200,7 @@ function getGeolocation() {
 
 async function getWeatherByCoords(lat, lon) {
     try {
+        showLoading();
         const weatherResponse = await fetch(`/api/weather?lat=${lat}&lon=${lon}&units=${units}`);
         const weatherData = await weatherResponse.text();
         console.log('Weather API response:', weatherData);
@@ -223,8 +224,12 @@ async function getWeatherByCoords(lat, lon) {
         updateCurrentWeather(parsedWeatherData);
 
         const forecastResponse = await fetch(`/api/forecast?lat=${lat}&lon=${lon}&units=${units}`);
-        const forecastData = await forecastResponse.text(); // Change this to text()
-        console.log('Forecast API response:', forecastData); // Log the raw response
+        const forecastData = await forecastResponse.text();
+        console.log('Forecast API response:', forecastData);
+
+        if (!forecastResponse.ok) {
+            throw new Error(`Forecast API responded with status ${forecastResponse.status}: ${forecastData}`);
+        }
 
         let parsedForecastData;
         try {
@@ -239,10 +244,7 @@ async function getWeatherByCoords(lat, lon) {
         }
         
         updateForecast(parsedForecastData);
-
         updateBackground(parsedWeatherData.weather[0].main);
-
-        // Add the location name to search history
         addToSearchHistory(parsedWeatherData.name);
         cityInput.value = parsedWeatherData.name;
     } catch (error) {
